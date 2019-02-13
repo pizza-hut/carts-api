@@ -5,13 +5,9 @@ var mongoose = require('mongoose');
 var SchemaTypes = mongoose.Schema.Types;
 
 var cartSchema = mongoose.Schema({
-    cartId: {
-        type: String,
-        required: true
-    }, 
     
     items: [{
-        itemId: String,
+        productId: String,
         productLink: String,
         quantity: Number         
     }],    

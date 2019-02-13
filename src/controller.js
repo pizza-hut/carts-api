@@ -4,6 +4,7 @@ Cart = require('./cart-model');
 
 // Handle index actions
 exports.index = function (req, res) {
+    console.log("carts api index");
     Cart.get(function (err, carts) {
         if (err) {
             res.json({
@@ -21,12 +22,15 @@ exports.index = function (req, res) {
 
 // Handle create product actions
 exports.new = function (req, res) {
-    var cart = new Cart();    
+    var cart = new Cart();
+    console.log("requestor:" + req.body.requestor);
+    console.log("JSON:" + JSON.stringify(req.body.items));
+    
+    cart.items = req.body.items.slice();
 
 // save the product and check for errors
     cart.save(function (err) {
-        // if (err)
-        //     res.json(err);
+        if (err) res.json(err);
         res.json({
             status: '201',
             message: 'New cart created!',
@@ -38,9 +42,9 @@ exports.new = function (req, res) {
 // Handle view cart info
 exports.view = function (req, res) {
     Cart.findById(req.params.cart_id, function (err, cart) {
-        if (err)
-            res.send(err);
+        if (err) res.send(err);
         res.json({
+            status: '200',
             message: 'cart details loading..',
             data: cart
         });
@@ -53,9 +57,8 @@ exports.update = function (req, res) {
 Cart.findById(req.params.cart_id, function (err, cart) {
         if (err)
             res.send(err);
-        cart.cartId = req.body.cartId ? req.body.cartId : cart.cartId;
-        cart.items = req.body.cart.items;
-
+        console.log(JSON.stringify(req.body.items));
+        cart.items = req.body.cart.items.slice();        
         cart.save(function (err) {
             if (err)
                 res.json(err);
