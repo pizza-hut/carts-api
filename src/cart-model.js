@@ -5,15 +5,17 @@ var mongoose = require('mongoose');
 var SchemaTypes = mongoose.Schema.Types;
 
 var cartSchema = mongoose.Schema({
-    cartId: {
-        type: String,
-        required: true
-    }, 
-       
+    
     items: [{
-        itemId: String,
+        productId: String,
         productLink: String,
-        quantity: Number         
+        productOptionValues: [{
+            option: String,
+            value: String
+        }],
+        quantity: Number,
+        price: Number,
+        subTotal: Number         
     }],    
                                       
     totalCost: {
@@ -28,7 +30,6 @@ var cartSchema = mongoose.Schema({
 
 // Export Cart model
 var Cart = module.exports = mongoose.model('cart', cartSchema);
-
 
 module.exports.get = function (callback, limit) {
     Cart.find(callback).limit(limit);

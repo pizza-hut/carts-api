@@ -1,6 +1,11 @@
 // api-routes.js
 // Initialize express router
-let router = require('express').Router();
+
+var express = require('express');
+var router = express.Router();
+var app = express();
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Set default API response
 router.get('/', function (req, res) {
