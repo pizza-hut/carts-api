@@ -9,7 +9,7 @@ var cartSchema = mongoose.Schema({
         type: String,
         required: true
     }, 
-    
+       
     items: [{
         itemId: String,
         productLink: String,
@@ -29,6 +29,7 @@ var cartSchema = mongoose.Schema({
 // Export Cart model
 var Cart = module.exports = mongoose.model('cart', cartSchema);
 
+
 module.exports.get = function (callback, limit) {
     Cart.find(callback).limit(limit);
-}
+};

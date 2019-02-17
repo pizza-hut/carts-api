@@ -21,12 +21,14 @@ exports.index = function (req, res) {
 
 // Handle create product actions
 exports.new = function (req, res) {
-    var cart = new Cart();    
+    var cart = new Cart();
+    cart.cartId = req.body.cartId;
+    cart.items = req.body.items;
 
 // save the product and check for errors
     cart.save(function (err) {
-        // if (err)
-        //     res.json(err);
+        if (err)
+            res.json(err);
         res.json({
             status: '201',
             message: 'New cart created!',
@@ -55,7 +57,7 @@ Cart.findById(req.params.cart_id, function (err, cart) {
             res.send(err);
         cart.cartId = req.body.cartId ? req.body.cartId : cart.cartId;
         cart.items = req.body.cart.items;
-
+        
         cart.save(function (err) {
             if (err)
                 res.json(err);
@@ -84,6 +86,10 @@ exports.delete = function (req, res) {
 
 exports.newItem = function (req, res) {
     Cart.findById(req.param.cart_id, function (err, cart) {
-        cart.items.add(req.body.itemId, req.body.productLink, req.body.quantity);        
+        //cart.items.add(req.body.itemId, req.body.productLink, req.body.quantity);
+        if (err)
+            res.send(err);
+        res.send(cart.items.index);
+        
     });
 };
