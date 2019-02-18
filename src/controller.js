@@ -98,8 +98,10 @@ exports.getItems = function(req, res) {
 //Add a new item to cart
 exports.newItem = function (req, res) {
     Cart.findById(req.params.cart_id, function (err, cart) {        
-        //var item =[req.body._id, req.body.productId, req.body.productLink, req.body.quantity];
-        cart.items.push(req.body._id, req.body.productId, req.body.productLink, req.body.quantity);      
+        var itemId = cart.items.length + 1;
+        var item ={"productId":req.body.productId, "productLink":req.body.productLink};
+        cart.items.push(item);
+        console.log(cart.items);      
         cart.save(function (err) {
             if (err)
                 res.json(err);

@@ -7,7 +7,7 @@ var SchemaTypes = mongoose.Schema.Types;
 var cartSchema = mongoose.Schema({
     
     items: [{
-        _id: Number,
+        //_id: Number,
         productId: String,
         productLink: String,
         productOptionValues: [{
