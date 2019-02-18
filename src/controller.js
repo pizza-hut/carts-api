@@ -45,7 +45,7 @@ exports.view = function (req, res) {
         if (err) res.send(err);
         res.json({
             status: '200',
-            message: 'cart details loading..',
+            message: 'cart ' + req.params.cart_id + ' details',
             data: cart
         });
     });
@@ -73,30 +73,60 @@ Cart.findById(req.params.cart_id, function (err, cart) {
 
 // Handle delete cart
 exports.delete = function (req, res) {
-    Cart.remove({
-        _id: req.params.cart_id
-    }, function (err, cart) {
+    Cart.remove({ _id: req.params.cart_id}, function (err, cart) {
         if (err)
             res.send(err);
-                res.json({
-                status: "201",
-                message: 'Cart is deleted'
+        res.json({
+        status: "201",
+        message: 'Cart is deleted'
             });
         });
 };
 
+//Get cart items
+exports.getItems = function(req, res) {
+    Cart.findById(req.params.cart_id, function(err, cart) {
+        console.log(req.params);
+        res.json({
+            status: '200',
+            data: cart.items.slice()
+        });
+    });                                                
+                                                    
+};
+
+//Add a new item to cart
 exports.newItem = function (req, res) {
-    Cart.findById(req.param.cart_id, function (err, cart) {
-        //cart.items.add(req.body.itemId, req.body.productLink, req.body.quantity);
+    Cart.findById(req.params.cart_id, function (err, cart) {        
+        //var item =[req.body._id, req.body.productId, req.body.productLink, req.body.quantity];
+        cart.items.push(req.body._id, req.body.productId, req.body.productLink, req.body.quantity);      
+        cart.save(function (err) {
+            if (err)
+                res.json(err);
+            res.json({
+                status: '201',
+                message: 'Item No.' + cart.items.length + ' is added',
+                data: cart.items.slice(cart.items.length -1)
+            });
+        });
+    });
+};
+                  
+//view a specific item in cart
+exports.viewItem = function (req, res) {
+    Cart.findById(req.params.cart_id, function(err, cart) {
         if (err)
             res.send(err);
-        res.send(cart.items.index);
-        
+        res.json({
+            status: "200",
+            data: cart.items.slice(req.params.itemIndex, req.params.itemIndex+1) 
+        });
     });
 };
 
+//checkout
 exports.checkout = function (req, res) {
     if (err)
         res.send(err);
 
-}
+};

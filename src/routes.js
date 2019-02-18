@@ -32,8 +32,12 @@ router.route('/carts/:cart_id')
 
 router.route('/carts/:cart_id/items')
     .post(controller.newItem)
+    .get(controller.getItems)
 //   .putItem(controller.update)
 //    .deleteItem(controller.delete)
+
+router.route('/carts/:cart_id/items/:itemIndex')
+    .get(controller.viewItem)
 
 // Export API routes
 module.exports = router;
