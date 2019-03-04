@@ -1,0 +1,9 @@
+{
+    "env": "development",
+    "server": {
+        "port" : 9090
+    },
+    "db" : {
+        "connectionString" : "mongodb://localhost/carts"
+    }    
+}

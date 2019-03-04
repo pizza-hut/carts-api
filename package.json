@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "body-parse": "^0.1.0",
+    "convict": "^4.4.1",
     "express": "^4.16.4",
     "mongoose": "^5.4.11",
     "nodemon": "^1.18.10"
