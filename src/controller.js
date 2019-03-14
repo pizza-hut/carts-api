@@ -1,6 +1,7 @@
 // controller.js
 // Import cart model
 Cart = require('./cart-model');
+Order = require('./orderService');
 
 // Handle index actionss
 exports.index = function (req, res) {
@@ -20,7 +21,7 @@ exports.index = function (req, res) {
     });
 };
 
-// Handle create product actions
+// Handle create cart actions
 exports.new = function (req, res) {
     var cart = new Cart();
     console.log("requestor:" + req.body.requestor);
@@ -28,7 +29,7 @@ exports.new = function (req, res) {
     
     cart.items = req.body.items.slice();
 
-// save the product and check for errors
+// save the cart and check for errors
     cart.save(function (err) {
         if (err) res.json(err);
         res.json({
@@ -128,7 +129,14 @@ exports.viewItem = function (req, res) {
 
 //checkout
 exports.checkout = function (req, res) {
-    if (err)
-        res.send(err);
-
+    Cart.findById(req.params.cart_id, function(err, cart) {
+        if (err)
+            res.send(err);
+        Order.createOrder(cart.items, 10000);
+        cart.status = "checkout";
+        cart.save;
+        res.json({
+            status: "200",
+            data: cart.items.slice(req.params.itemIndex, req.params.itemIndex+1)})    
+    });    
 };

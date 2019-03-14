@@ -1,16 +1,18 @@
 // FileName: index.js
 // Import express
-let express = require('express');
+const express = require('express');
 // Initialize the app
-let app = express();
+const app = express();
 
-let bodyParser = require('body-parser');
-let mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 const config = require('./config.js');
 //console.log(config.get('db.connectionString'));
 
 app.use(bodyParser.urlencoded({extended:true}));
+//app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 
 //mongoose.connect('mongodb://localhost/carts');
 mongoose.connect(config.get('db.connectionString'));

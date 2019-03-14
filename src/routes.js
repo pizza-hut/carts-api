@@ -1,10 +1,13 @@
 // api-routes.js
 // Initialize express router
 
-var express = require('express');
-var router = express.Router();
-var app = express();
-var bodyParser = require('body-parser');
+const express = require('express');
+const app = express();
+const router = express.Router();
+const bodyParser = require('body-parser');
+const swaggerUi = require('swagger-ui-express');
+//const swaggerDocument = require('./swagger.json');
+
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Set default API response
@@ -19,7 +22,11 @@ router.get('/', function (req, res) {
 // Import product controller
 var controller = require('./controller');
 
-// Product routes
+// Swagger routes
+//router.use('/', swaggerUi.serve);
+//router.use('/', swaggerUi.setup(swaggerDocument));
+
+// Carts routes
 router.route('/carts')
     .get(controller.index)
     .post(controller.new);
@@ -32,12 +39,14 @@ router.route('/carts/:cart_id')
 
 router.route('/carts/:cart_id/items')
     .post(controller.newItem)
-    .get(controller.getItems)
+    .get(controller.getItems);
 //   .putItem(controller.update)
 //    .deleteItem(controller.delete)
 
 router.route('/carts/:cart_id/items/:itemIndex')
-    .get(controller.viewItem)
+    .get(controller.viewItem);
 
+router.route('/carts/:cart_id/checkout')
+    .post(controller.checkout);
 // Export API routes
 module.exports = router;

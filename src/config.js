@@ -29,7 +29,7 @@ var config = convict ({
 });
 
 var env = config.get('env');
-config.loadFile('../config/' + env + '.json');
+config.loadFile('./config/' + env + '.json');
 
 config.validate({allowed: 'strict'});
 module.exports = config;
