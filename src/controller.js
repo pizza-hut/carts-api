@@ -130,11 +130,28 @@ exports.viewItem = function (req, res) {
 //checkout
 exports.checkout = function (req, res) {
     Cart.findById(req.params.cart_id, function(err, cart) {
-        if (err)
-            res.send(err);
-        Order.createOrder(cart.items, 10000);
-        cart.status = "checkout";
-        cart.save;
+        console.log(req.params.cart_id + ' checking out...');
+        if (err) {
+            console.log(err);    
+            res.send(err);        
+        };
+        
+        if (cart.status !== 'checkout') {
+            console.log(cart.items);
+            Order.createOrder(cart);
+            cart.status = "checkout";
+            cart.save;
+        } else {
+            console.log(cart._id + ' is already checked out');
+            res.json(
+                {
+                    status: '500',
+                    message: 'cart is already checked out'
+                }
+            )
+        };
+
+        console.log(cart._id + ' ' + cart.status);
         res.json({
             status: "200",
             data: cart.items.slice(req.params.itemIndex, req.params.itemIndex+1)})    

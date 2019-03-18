@@ -9,10 +9,10 @@ const mongoose = require('mongoose');
 
 const config = require('./config.js');
 //console.log(config.get('db.connectionString'));
-
+const actuator = require('express-actuator');
 app.use(bodyParser.urlencoded({extended:true}));
 //app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
+app.use(bodyParser.json());
 
 //mongoose.connect('mongodb://localhost/carts');
 mongoose.connect(config.get('db.connectionString'));
@@ -22,6 +22,8 @@ var db = mongoose.connection;
 //import routes
 let apiRoutes = require('./routes')
 app.use('/api', apiRoutes);
+
+app.use(actuator());
 
 // Setup server port
 //var port = process.env.PORT || 9191;

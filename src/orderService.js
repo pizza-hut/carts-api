@@ -1,6 +1,7 @@
 //orderService.js
 
 const axios = require('axios');
+const Cart = require('./cart-model');
 
 function OrderResponse(httpCode, status, message) {
     this.httpCode = httpCode;
@@ -8,10 +9,10 @@ function OrderResponse(httpCode, status, message) {
     this.message = message;
 };
 
-function createOrder(orderItems, orderTotalCost) {
-axios.post('http://localhost:9191/orders', {
-    items: orderItems,                                      
-    totalCost: orderTotalCost
+function createOrder(Cart) {
+axios.post('http://localhost:9191/api/orders', {
+    items: Cart.items,                                      
+    totalCost: Cart.totalCost
     })
     .then(function (response) {
         return response;        

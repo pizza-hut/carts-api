@@ -5,10 +5,12 @@ const express = require('express');
 const app = express();
 const router = express.Router();
 const bodyParser = require('body-parser');
+
 const swaggerUi = require('swagger-ui-express');
 //const swaggerDocument = require('./swagger.json');
 
 app.use(bodyParser.urlencoded({ extended: true }));
+
 
 // Set default API response
 router.get('/', function (req, res) {
