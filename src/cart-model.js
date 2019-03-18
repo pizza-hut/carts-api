@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 var SchemaTypes = mongoose.Schema.Types;
 
 var cartSchema = mongoose.Schema({
-    
+    cartId: String,
     items: [{
         //_id: Number,
         productId: String,
@@ -17,13 +17,15 @@ var cartSchema = mongoose.Schema({
         quantity: Number,
         price: Number,
         subTotal: Number         
-    }],    
-                                      
+    }],                                      
     totalCost: {
         type: Number
-    },
-    
+    },    
     createdDate: {
+        type: Date,
+        default: Date.now  
+    },
+    lastModifiedDate: {
         type: Date,
         default: Date.now  
     }

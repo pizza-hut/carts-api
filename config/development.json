@@ -5,5 +5,8 @@
     },
     "db" : {
         "connectionString" : "mongodb://localhost/carts"
+    },
+    "order" : {
+        "url" : "http://localhost:9191/api/orders"
     }    
 }
