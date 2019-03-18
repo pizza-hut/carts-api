@@ -11,7 +11,7 @@ function OrderResponse(httpCode, status, message) {
 
 function createOrder(Cart) {
 axios.post('http://localhost:9191/api/orders', {
-    items: Cart.items,                                      
+    items: Cart.items,
     totalCost: Cart.totalCost
     })
     .then(function (response) {

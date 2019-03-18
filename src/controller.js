@@ -134,23 +134,12 @@ exports.checkout = function (req, res) {
         if (err) {
             console.log(err);    
             res.send(err);        
-        };
-        
-        if (cart.status !== 'checkout') {
-            console.log(cart.items);
+        } else {
             Order.createOrder(cart);
             cart.status = "checkout";
             cart.save;
-        } else {
-            console.log(cart._id + ' is already checked out');
-            res.json(
-                {
-                    status: '500',
-                    message: 'cart is already checked out'
-                }
-            )
         };
-
+        
         console.log(cart._id + ' ' + cart.status);
         res.json({
             status: "200",
