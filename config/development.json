@@ -1,6 +1,7 @@
 {
     "env": "development",
     "server": {
+        "hostName" : "localhost",
         "port" : 9090
     },
     "db" : {

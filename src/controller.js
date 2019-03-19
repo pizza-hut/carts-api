@@ -3,6 +3,9 @@
 Cart = require('./cart-model');
 Order = require('./orderService');
 
+const config = require('./config');
+const uuid = require('uuid/v5');
+
 // Handle index actionss
 exports.index = function (req, res) {
     console.log("carts api index");
@@ -27,6 +30,8 @@ exports.new = function (req, res) {
     console.log("requestor:" + req.body.requestor);
     console.log("JSON:" + JSON.stringify(req.body.items));
     
+    cart.cart_id = uuid(config.get('server.hostName'), uuid.DNS);
+    console.log(cart.cart_id);
     cart.items = req.body.items.slice();
 
 // save the cart and check for errors
