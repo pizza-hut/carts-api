@@ -1,7 +1,7 @@
 // controller.js
 // Import cart model
 Cart = require('./cart-model');
-Order = require('./orderService');
+orderService = require('./orderService');
 
 const config = require('./config');
 const uuid = require('uuid/v5');
@@ -137,14 +137,16 @@ exports.checkout = function (req, res) {
     Cart.findById(req.params.cart_id, function(err, cart) {
         console.log(req.params.cart_id + ' checking out...');
         if (err) {
-            console.log(err);    
-            res.send(err);        
+            console.log(req.params.cart_id + ' ' + err);    
+            res.send(err);
         } else {
-            Order.createOrder(cart);
-            cart.status = "checkout";
+            var orderId;
+            orderId = orderService.createOrder(cart);
+            console.log('controller ' + orderId);
+            cart.status = 'checkout';
             cart.save;
         };
-        
+
         console.log(cart._id + ' ' + cart.status);
         res.json({
             status: "200",
