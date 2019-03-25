@@ -1,4 +1,4 @@
-//orderService.js
+//orderServicePromise.js
 
 const axios = require('axios');
 const Cart = require('./cart-model');
@@ -28,7 +28,6 @@ function createOrder(Cart) {
             });    
     });
 }
-
 
 
 module.exports.createOrder = function(Cart) {createOrder(Cart)};
