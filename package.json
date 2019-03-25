@@ -20,6 +20,7 @@
     "express-swagger-generator": "^1.1.13",
     "mongoose": "^5.4.11",
     "nodemon": "^1.18.10",
+    "promise": "^8.0.3",
     "save": "^2.3.3",
     "swagger-ui-express": "^4.0.2",
     "uuid": "^3.3.2"

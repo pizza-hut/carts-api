@@ -1,7 +1,7 @@
 // controller.js
 // Import cart model
 Cart = require('./cart-model');
-orderService = require('./orderService');
+orderService = require('./orderServicePromise');
 
 const config = require('./config');
 const uuid = require('uuid/v5');
@@ -135,21 +135,33 @@ exports.viewItem = function (req, res) {
 //checkout
 exports.checkout = function (req, res) {
     Cart.findById(req.params.cart_id, function(err, cart) {
-        console.log(req.params.cart_id + ' checking out...');
-        if (err) {
-            console.log(req.params.cart_id + ' ' + err);    
-            res.send(err);
-        } else {
-            var orderId;
-            orderId = orderService.createOrder(cart);
-            console.log('controller ' + orderId);
-            cart.status = 'checkout';
-            cart.save;
-        };
+        console.log(req.params.cart_id + ' checking out...');   
 
-        console.log(cart._id + ' ' + cart.status);
+        orderService.createOrderPromise(cart)
+            .then(function(response){
+                console.log('controller is fulfilled');
+                console.log(response);
+                orderResponse = response;
+            })
+            .catch(function(error){
+                console.log(error);
+            }) 
+        //console.log(cart._id + ' ' + cart.status);
         res.json({
             status: "200",
-            data: cart.items.slice(req.params.itemIndex, req.params.itemIndex+1)})    
+            //data: JSON.stringify(orderResponse)});
+            data: 'testing...'});
     });    
 };
+
+var orderResponse = function() {
+    console.log('orderService.orderResponse');
+    orderService.orderResponse
+        .then(function(fulfilled){
+            console.log('controller is fulfilled');
+            console.log(fulfilled);
+        })
+        .catch(function(error){
+            console.log(error);
+        })
+}  
