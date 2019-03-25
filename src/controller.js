@@ -141,16 +141,13 @@ exports.checkout = function (req, res) {
             .then(function(response){
                 console.log('controller is fulfilled');
                 console.log(response);
-                orderResponse = response;
+                res.json({ response});                    
             })
             .catch(function(error){
                 console.log(error);
             }) 
         //console.log(cart._id + ' ' + cart.status);
-        res.json({
-            status: "200",
-            //data: JSON.stringify(orderResponse)});
-            data: 'testing...'});
+        
     });    
 };
 
