@@ -26,12 +26,9 @@ exports.index = function (req, res) {
 
 // Handle create cart actions
 exports.new = function (req, res) {
-    var cart = new Cart();
-    console.log("requestor:" + req.body.requestor);
-    console.log("JSON:" + JSON.stringify(req.body.items));
-    
+    var cart = new Cart();   
     cart.cart_id = uuid(config.get('server.hostName'), uuid.DNS);
-    console.log(cart.cart_id);
+    console.log(cart.cart_id + ' is created');
     cart.items = req.body.items.slice();
 
 // save the cart and check for errors
@@ -64,7 +61,7 @@ Cart.findById(req.params.cart_id, function (err, cart) {
         if (err)
             res.send(err);
         console.log(JSON.stringify(req.body.items));
-        cart.items = req.body.cart.items.slice();        
+        cart.items = req.body.cart.items.slice();
         cart.save(function (err) {
             if (err)
                 res.json(err);
@@ -135,30 +132,55 @@ exports.viewItem = function (req, res) {
 //checkout
 exports.checkout = function (req, res) {
     Cart.findById(req.params.cart_id, function(err, cart) {
-        console.log(req.params.cart_id + ' checking out...');   
+        
+        //initialize totalPrice to calculate totalPrice
+        cart.totalPrice = 0;
 
+        if (err)
+            res.send(err);
+        console.log(req.params.cart_id + ' requesting checkout Cart._id ' + cart._id);
+
+        //Calculate cart subTotal and totalPrice
+        for (var i=0; i < cart.items.length; i++) {
+
+            //initialize subTotal to calculate subTotal
+            var subTotal = 0;
+            cart.items[i].subTotal = subTotal;
+
+            if (cart.items[i].price === null || cart.items[i].price === 0) {
+                cart.items[i].price = 0;
+            }
+
+            if (cart.items[i].quantity === null || cart.items[i].quantity === 0) {
+                cart.items[i].quantity = 1;
+            }
+            
+            subTotal = cart.items[i].price * cart.items[i].quantity;
+            cart.items[i].subTotal = subTotal;            
+            cart.totalPrice = cart.totalPrice + cart.items[i].subTotal;
+        }
+
+        //create order
         orderService.createOrderPromise(cart)
             .then(function(response){
                 console.log('controller is fulfilled');
                 console.log(response);
-                res.json({ response});                    
+                cart.status = 'checkout';
+                cart.orderId = response.data;
+                
+                //save cart
+                cart.save(function (err) {
+                    if (err) {
+                        res.send(err);
+                        console.log(err);
+                    }
+                    //console.log(cart);
+                    res.json({response});
+                });
             })
             .catch(function(error){
                 console.log(error);
             }) 
-        //console.log(cart._id + ' ' + cart.status);
-        
+                
     });    
-};
-
-var orderResponse = function() {
-    console.log('orderService.orderResponse');
-    orderService.orderResponse
-        .then(function(fulfilled){
-            console.log('controller is fulfilled');
-            console.log(fulfilled);
-        })
-        .catch(function(error){
-            console.log(error);
-        })
-}  
+}; 

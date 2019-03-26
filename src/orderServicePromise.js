@@ -9,11 +9,11 @@ var orderServiceUrl = config.get('order.url');
 var Promise = require('promise');
 
 function createOrder(Cart) {
-    console.log(Cart._id);
+    console.log(Cart._id + ' ' + Cart.totalPrice);
     return new Promise(function(resolve, reject) {
         axios.post(orderServiceUrl, {
             items: Cart.items,
-            totalCost: Cart.totalCost
+            totalCost: Cart.totalPrice
             })
             .then(function (response) {
                 console.log('remote order is fulfilled');

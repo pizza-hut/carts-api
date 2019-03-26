@@ -7,7 +7,7 @@ var SchemaTypes = mongoose.Schema.Types;
 var cartSchema = mongoose.Schema({
     cartId: String,
     items: [{
-        //_id: Number,
+        // _id: Number,
         productId: String,
         productLink: String,
         productOptionValues: [{
@@ -18,9 +18,15 @@ var cartSchema = mongoose.Schema({
         price: Number,
         subTotal: Number         
     }],                                      
-    totalCost: {
+    totalPrice: {
         type: Number
-    },    
+    },
+    status: {
+        type: String
+    },
+    orderId: {
+        type: String
+    },
     createdDate: {
         type: Date,
         default: Date.now  
